@@ -1,0 +1,42 @@
+inherit gnome2 emacs python vim
+
+NAME="zeitgeist-datasources"
+VERSION=0.8.1
+RELEASE=1
+CATEGORY="GNOME"
+SUMMARY="Data source plugins for Zeitgeist daemon"
+DESCRIPTION="Zeitgeist is a service which logs the users' activities and
+events, anywhere from files opened to websites visited and conversations had.
+It makes this information readily available for other applications to use. It
+is able to establish relationships between items based on similarity and usage
+patterns."
+HOMEPAGE="http://zeitgeist-project.com/"
+SRC_URI="http://launchpad.net/${NAME}/${PV[1]}.${PV[2]}/${PV}/+download/${NAME}-${VERSION}.tar.gz"
+PATCH_URI="0.8.1-cygwin.patch"
+
+PKG_NAMES="bzr-zeitgeist emacs-zeitgeist geany-zeitgeist telepathy-zeitgeist
+           vim-zeitgeist xchat-zeitgeist"
+bzr_zeitgeist_DOCS="COPYING bzr/README"
+bzr_zeitgeist_CONTENTS="${PYTHON_SITELIB#/}/bzrlib/ usr/share/pixmaps/bzr-*"
+emacs_zeitgeist_DOCS="COPYING emacs/README"
+emacs_zeitgeist_CONTENTS=${EMACS_SITE#/}
+geany_zeitgeist_DOCS="COPYING"
+geany_zeitgeist_CONTENTS="usr/lib/geany/"
+telepathy_zeitgeist_REQUIRES="girepository-TelepathyGLib0.12"
+telepathy_zeitgeist_DOCS="COPYING telepathy/AUTHORS"
+telepathy_zeitgeist_CONTENTS="usr/bin/zeitgeist-telepathy-observer
+	usr/share/dbus-1/services/org.freedesktop.Telepathy.*
+	usr/share/telepathy/clients/Zeitgeist.client"
+vim_zeitgeist_DOCS="COPYING"
+vim_zeitgeist_CONTENTS=${VIMFILES#/}
+xchat_zeitgeist_DOCS="COPYING xchat/README"
+xchat_zeitgeist_CONTENTS="usr/lib/xchat/"
+
+src_install() {
+	cd ${B}
+	cyginstall bzrplugindir=${PYTHON_SITELIB}/bzrlib/plugins/zeitgeist \
+		   vimplugindir=${VIMFILES}/plugin zeitgeistdocdir=
+	python_optimize
+
+	rm -fr ${D}/usr/share/{mozilla,opt/google/chrome,xul-ext-zeitgeist}/
+}

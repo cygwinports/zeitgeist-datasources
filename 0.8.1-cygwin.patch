@@ -1,0 +1,53 @@
+--- origsrc/zeitgeist-datasources-0.8.1/geany/Makefile.am	2012-03-30 17:57:56.000000000 -0500
++++ src/zeitgeist-datasources-0.8.1/geany/Makefile.am	2012-12-18 04:35:32.329359600 -0600
+@@ -14,7 +14,7 @@ zeitgeist_dataprovider_la_LIBADD = \
+         $(GEANY_LIBS) \
+         $(NULL)
+ zeitgeist_dataprovider_la_LDFLAGS = \
+-        -module -avoid-version \
++        -module -avoid-version -no-undefined \
+         $(NULL)
+ 
+ # we want to allow also local install
+--- origsrc/zeitgeist-datasources-0.8.1/npapi-plugin/build/build_config.h	2012-03-30 17:57:56.000000000 -0500
++++ src/zeitgeist-datasources-0.8.1/npapi-plugin/build/build_config.h	2012-12-18 04:43:43.496452700 -0600
+@@ -17,7 +17,7 @@
+ // A set of macros to use for platform detection.
+ #if defined(__APPLE__)
+ #define OS_MACOSX 1
+-#elif defined(__linux__)
++#elif defined(__linux__) || defined(__CYGWIN__)
+ #define OS_LINUX 1
+ #elif defined(_WIN32)
+ #define OS_WIN 1
+@@ -56,7 +56,7 @@
+ #endif
+ 
+ // Type detection for wchar_t.
+-#if defined(OS_WIN)
++#if defined(OS_WIN) || defined(__CYGWIN__)
+ #define WCHAR_T_IS_UTF16
+ #elif defined(OS_POSIX) && defined(COMPILER_GCC) && \
+     defined(__WCHAR_MAX__) && __WCHAR_MAX__ == 0x7fffffff
+--- origsrc/zeitgeist-datasources-0.8.1/xchat/Makefile.am	2012-03-30 17:57:56.000000000 -0500
++++ src/zeitgeist-datasources-0.8.1/xchat/Makefile.am	2012-12-18 04:38:01.965918300 -0600
+@@ -14,7 +14,7 @@ zeitgeist_dataprovider_la_LIBADD = \
+         $(ZEITGEIST_LIBS) \
+         $(NULL)
+ zeitgeist_dataprovider_la_LDFLAGS = \
+-        -module -avoid-version \
++        -module -avoid-version -no-undefined \
+         $(NULL)
+ 
+ # we want to allow also local install
+--- origsrc/zeitgeist-datasources-0.8.1/xchat/xchat-plugin.h	2012-03-30 17:57:56.000000000 -0500
++++ src/zeitgeist-datasources-0.8.1/xchat/xchat-plugin.h	2012-12-18 04:55:44.277679100 -0600
+@@ -292,7 +292,7 @@ void
+ xchat_free (xchat_plugin *ph,
+ 	    void *ptr);
+ 
+-#if !defined(PLUGIN_C) && defined(WIN32)
++#if !defined(PLUGIN_C) && (defined(WIN32) || defined(__CYGWIN__))
+ #ifndef XCHAT_PLUGIN_HANDLE
+ #define XCHAT_PLUGIN_HANDLE (ph)
+ #endif
