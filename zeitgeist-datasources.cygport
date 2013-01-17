@@ -2,7 +2,7 @@ inherit gnome2 emacs python vim
 
 NAME="zeitgeist-datasources"
 VERSION=0.8.1
-RELEASE=1
+RELEASE=2
 CATEGORY="GNOME"
 SUMMARY="Data source plugins for Zeitgeist daemon"
 DESCRIPTION="Zeitgeist is a service which logs the users' activities and
